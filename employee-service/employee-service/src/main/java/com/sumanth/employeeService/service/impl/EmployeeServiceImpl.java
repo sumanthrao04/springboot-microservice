@@ -5,6 +5,7 @@ import com.sumanth.employeeService.dto.DepartmentDto;
 import com.sumanth.employeeService.dto.EmployeeDto;
 import com.sumanth.employeeService.entity.Employee;
 import com.sumanth.employeeService.repository.EmployeeRepository;
+import com.sumanth.employeeService.service.ApiClient;
 import com.sumanth.employeeService.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,10 @@ public class EmployeeServiceImpl  implements EmployeeService {
    // private RestTemplate restTemplate;
 
     //Microservice communication using webClient
-    private WebClient webClient;
+    //private WebClient webClient;
+
+    //Microservice communication by using openfeign
+    private ApiClient apiClient;
 
 
      private EmployeeRepository employeeRepository;
@@ -55,17 +59,21 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
-        // Microservice communication using Rest Template
+        // Microservice communication by using Rest Template
        /*ResponseEntity<DepartmentDto> response= restTemplate.getForEntity("http://localhost:8080/api/department/"+employee.getDepartmentCode(), DepartmentDto.class);
         DepartmentDto departmentDto =response.getBody();
         */
 
-        //Microservice communication using webClient
-        DepartmentDto   response =  webClient.get()
+        //Microservice communication by using webClient
+        /*DepartmentDto   response =  webClient.get()
                 .uri("http://localhost:8080/api/department/"+employee.getDepartmentCode())
                 .retrieve()
                 .bodyToMono(DepartmentDto.class)
                 .block();
+*/
+        //Microservice communication by using openfeign
+        DepartmentDto   response=  apiClient.getDepartmentById(employee.getDepartmentCode());
+
 
         EmployeeDto employeeDto = new EmployeeDto(
                 employee.getId(),

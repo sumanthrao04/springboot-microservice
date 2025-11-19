@@ -17,8 +17,9 @@ public class RestTemplateConfig {
         return new RestTemplate(); // Basic RestTemplate without custom settings
     }
 
+    //Bean for webClient
     @Bean
-    public WebClient webClient(){
-        return   WebClient.builder().build() ;
+    public WebClient webClient() {
+        return WebClient.builder().build();
     }
 }
