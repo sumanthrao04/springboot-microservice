@@ -10,13 +10,20 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl  implements EmployeeService {
 
-    private RestTemplate restTemplate;
-  private EmployeeRepository employeeRepository;
+    //Microservice communication using Rest Template
+   // private RestTemplate restTemplate;
+
+    //Microservice communication using webClient
+    private WebClient webClient;
+
+
+     private EmployeeRepository employeeRepository;
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
 
@@ -48,8 +55,18 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
-       ResponseEntity<DepartmentDto> response= restTemplate.getForEntity("http://localhost:8080/api/department/"+employee.getDepartmentCode(), DepartmentDto.class);
+        // Microservice communication using Rest Template
+       /*ResponseEntity<DepartmentDto> response= restTemplate.getForEntity("http://localhost:8080/api/department/"+employee.getDepartmentCode(), DepartmentDto.class);
         DepartmentDto departmentDto =response.getBody();
+        */
+
+        //Microservice communication using webClient
+        DepartmentDto   response =  webClient.get()
+                .uri("http://localhost:8080/api/department/"+employee.getDepartmentCode())
+                .retrieve()
+                .bodyToMono(DepartmentDto.class)
+                .block();
+
         EmployeeDto employeeDto = new EmployeeDto(
                 employee.getId(),
                 employee.getFirstName(),
@@ -60,7 +77,7 @@ public class EmployeeServiceImpl  implements EmployeeService {
 
         ApiResponseDto responseEntity = new ApiResponseDto();
         responseEntity.setEmployee(employeeDto);
-        responseEntity.setDepartment(departmentDto);
+        responseEntity.setDepartment(response);
 
 
         return responseEntity;
