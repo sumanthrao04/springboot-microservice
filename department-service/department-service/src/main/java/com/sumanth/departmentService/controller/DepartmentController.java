@@ -8,21 +8,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("api/department")
 @AllArgsConstructor
 public class DepartmentController {
     private DepartmentService departmentService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<DepartmentDto>  savedUser( @RequestBody DepartmentDto departmentDto){
        DepartmentDto savedDepartment = departmentService.saveDepartment(departmentDto);
         return new ResponseEntity<>(savedDepartment, HttpStatus.CREATED);
 
     }
 
-    @GetMapping("{department-code}")
-    public ResponseEntity<DepartmentDto>  getDepartmentById(@PathVariable(name = "department-code") String departmentCode){
+    @GetMapping("/{departmentCode}")
+    public ResponseEntity<DepartmentDto>  getDepartmentById(@PathVariable("departmentCode") String departmentCode){
         DepartmentDto departmentDto = departmentService.getDepartmentByCode(departmentCode);
         return new ResponseEntity<>(departmentDto,HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.sumanth.employeeService.controller;
 
+import com.sumanth.employeeService.dto.ApiResponseDto;
 import com.sumanth.employeeService.dto.EmployeeDto;
 import com.sumanth.employeeService.entity.Employee;
 import com.sumanth.employeeService.service.EmployeeService;
@@ -22,9 +23,9 @@ public class EmployeeController {
         return new ResponseEntity<>(saveEmployee, HttpStatus.CREATED);
     }
 
-    @GetMapping("{By-id}")
-    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable(name = "By-id") Long employeeId){
-        EmployeeDto employeeDto = employeeService.EmployeeByID(employeeId);
+    @GetMapping("{id}")
+    public ResponseEntity<ApiResponseDto> getEmployee(@PathVariable("id") Long employeeId){
+        ApiResponseDto employeeDto = employeeService.EmployeeByID(employeeId);
         return new ResponseEntity<>(employeeDto,HttpStatus.OK);
                 
                 
