@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/employee")
+@RequestMapping("/employees")
 
 
 public class EmployeeController {
@@ -23,7 +23,7 @@ public class EmployeeController {
         return new ResponseEntity<>(saveEmployee, HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponseDto> getEmployee(@PathVariable("id") Long employeeId){
         ApiResponseDto employeeDto = employeeService.EmployeeByID(employeeId);
         return new ResponseEntity<>(employeeDto,HttpStatus.OK);

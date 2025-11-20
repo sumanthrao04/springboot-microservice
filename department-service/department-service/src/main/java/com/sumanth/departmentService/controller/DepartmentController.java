@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/department")
+@RequestMapping("/departments")
 @AllArgsConstructor
 public class DepartmentController {
     private DepartmentService departmentService;
