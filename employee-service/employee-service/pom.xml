@@ -81,10 +81,22 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <dependency>
+        <!--Enable only when you spin up rabbit mq container -->
+<!--        <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId> <!-- or bus-kafka -->
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId> &lt;!&ndash; or bus-kafka &ndash;&gt;
+        </dependency>-->
+
+        <!-- Distributed tracing -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+
 	</dependencies>
 
     <dependencyManagement>
